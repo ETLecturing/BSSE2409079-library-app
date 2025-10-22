@@ -1,10 +1,10 @@
-version: "3.8"
-
 services:
   web:
-      build: ./frontend
-      ports:
-        - 4200:4200
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 4200:80
 
   api:
     build: ./backend
