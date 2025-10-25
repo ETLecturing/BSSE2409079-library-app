@@ -1,17 +1,23 @@
-let http = require("http");
-let port = 3000;
+require('dotenv').config();
+const { connectDB, getDB } = require('./src/configs/db');
+const http = require('http');
 
+const hostname = '0.0.0.0'
+const port = process.env.PORT || 3000;
 
-let server = http.createServer(function(request, response) {
-    response.setHeader("Content-Type", "text/plain");
-    response.writeHead(200);
+(async () => {
+    await connectDB();
 
-    response.write("Hello World." + "\n");
+    const server = http.createServer(function(req, res) {
+        res.setHeader('Content-Type', 'text/plain');
+        res.writeHead(200);
 
-    response.end("Hi.");
-});
+        res.write('Hello from inside the docker container!\n');
+        res.end(`MongoDB connected! Database in use: ${getDB().databaseName}`);
+    });
 
+    server.listen(port, hostname, function() {
+        console.log(`Server listening on http://${hostname}:${port}/`);
+    })
 
-server.listen(port, function() {
-    console.log("Server listening on port " + port);
-});
+})();

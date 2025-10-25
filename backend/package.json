@@ -8,5 +8,11 @@
     "start": "node server.js"
   },
   "author": "Wong Kai Lun",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0"
+  }
 }
