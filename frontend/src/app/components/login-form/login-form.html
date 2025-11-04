@@ -1,0 +1,6 @@
+<form [formGroup]="loginForm" (submit)="loginUser($event)">
+    <h2>User Login</h2>
+    <input name="email" type="email" formControlName="email">
+    <input name="password" type="password" formControlName="password">
+    <button>Log In</button>
+</form>
