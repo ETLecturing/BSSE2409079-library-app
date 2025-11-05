@@ -5,10 +5,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 app.get('/', (req, res) => {
   res.send('Welcome to the Express application!');
 });
 
+// Example for angular
 app.get('/api/users', (req, res) => {
   res.json([
     { id: 1, name: 'John Doe' },
@@ -16,6 +18,10 @@ app.get('/api/users', (req, res) => {
   ]);
 });
 
-//app.listen(3000, () => console.log('Server running on port 3000'));
+// dev
+app.post('/api/userLogin', (req, res) => {
+
+})
+
 
 module.exports = app;
