@@ -19,15 +19,21 @@ app.get('/api/users', (req, res) => {
   ]);
 });
 
-// dev
-const Member = require('./models/Member')
-const mongoose = require('mongoose');
+app.post('/api/registerUser', (req, res) => {
 
-async function createMember() {
+  createMember(req.body.username, req.body.email, req.body.password);
+
+  res.json('Data received! Saving data...', req.body);
+});
+
+// dev
+const Member = require('./models/Member');
+
+async function createMember(username, email, password) {
   const newMember = await Member.create({
-    name: 'John',
-    email: 'john@abc.com',
-    password_hash: 'abcdefghijklmnop'
+    name: username,
+    email: email,
+    password_hash: password
   });
 
   await newMember.save();
@@ -35,8 +41,8 @@ async function createMember() {
 }
 
 app.get('/', (req, res) => {
-  createMember();
-  console.log(mongoose.connection.name);
+  // createMember();
+  // console.log(mongoose.connection.name);
   res.send('Welcome to the Express application!');
 });
 
