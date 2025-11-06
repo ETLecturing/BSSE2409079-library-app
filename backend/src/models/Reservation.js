@@ -1,8 +1,7 @@
 const Transaction = required('./Transaction.js');
 const mongoose = require('mongoose');
-const { Schema } = mongoose.Schema
 
-const reservationSchema = new Schema({
+const reservationSchema = new mongoose.Schema({
     reservationDate: {
         type: Date,
         required: true
