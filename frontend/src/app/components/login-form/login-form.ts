@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-form',
@@ -13,11 +14,22 @@ export class LoginForm {
     password: new FormControl('')
   });
 
+  constructor(private http: HttpClient) {}
+
   loginUser(event: Event) {
     event.preventDefault();
 
     console.log('Form is submitted!')
     console.log(this.loginForm.value)
+
+    if(this.loginForm.valid) {
+      this.http.post('http://localhost:3000/api/loginUser', this.loginForm.value)
+      .subscribe({
+        next: response => console.log('Success', response),
+        error: error => console.log('Error', error),
+        complete: () => console.log('Complete')
+      });
+    }
   }
 
   //route to express api for bcrypt

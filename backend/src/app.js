@@ -20,8 +20,23 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/registerUser', (req, res) => {
-
   createMember(req.body.username, req.body.email, req.body.password);
+  res.json('Data received! Saving data...', req.body);
+});
+
+app.post('/api/loginUser', async (req, res) => {
+  try {
+    const member = await Member.findOne({email: req.body.email});
+
+    if(member){
+      console.log('Member exists!');
+    } else {
+      console.log('Member does not exist!');
+    }
+
+  } catch(err) {
+    console.log(err);
+  }
 
   res.json('Data received! Saving data...', req.body);
 });
