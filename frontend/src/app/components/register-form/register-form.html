@@ -1,7 +1,7 @@
 <form [formGroup]="registerForm" (submit)="registerUser($event)">
     <h2>User Registration</h2>
-    <input name="name" type="text" formControlName="name">
-    <input name="email" type="email" formControlName="email">
-    <input name="password" type="password" formControlName="password">
+    <input name="name" type="text" formControlName="name" placeholder="Name">
+    <input name="email" type="email" formControlName="email" placeholder="Email Address">
+    <input name="password" type="password" formControlName="password" placeholder="Password">
     <button [disabled]="!registerForm.valid">Register</button>
 </form>

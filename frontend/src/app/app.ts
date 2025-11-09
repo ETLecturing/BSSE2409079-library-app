@@ -3,12 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user';
 import { NgFor } from '@angular/common';
 
-import { RegisterForm } from "./components/register-form/register-form";
-import { LoginForm } from './components/login-form/login-form';
+import { LandingPage } from "./components/landing-page/landing-page";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgFor, RegisterForm, LoginForm],
+  imports: [RouterOutlet, NgFor, LandingPage],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
