@@ -13,7 +13,7 @@ export class RegisterForm {
   constructor(private http: HttpClient) {}
 
   registerForm: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    name: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl('')
   });
@@ -25,7 +25,7 @@ export class RegisterForm {
     console.log(this.registerForm.value)
 
     if(this.registerForm.valid) {
-      this.http.post('http://localhost:3000/api/registerUser', this.registerForm.value)
+      this.http.post('http://localhost:3000/member/api/registerMember', this.registerForm.value)
       .subscribe({
         next: response => console.log('Success', response),
         error: error => console.log('Error', error),
