@@ -23,14 +23,13 @@ export class LoginForm {
     console.log(this.loginForm.value)
 
     if(this.loginForm.valid) {
-      this.http.post('http://localhost:3000/api/loginUser', this.loginForm.value)
+      this.http.post('http://localhost:3000/member/api/login', this.loginForm.value)
       .subscribe({
         next: response => console.log('Success', response),
         error: error => console.log('Error', error),
         complete: () => console.log('Complete')
       });
     }
-  }
 
-  //route to express api for bcrypt
+  }
 }
