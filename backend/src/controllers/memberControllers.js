@@ -10,7 +10,6 @@ async function createMember(req, res) {
 
     try {
         const userExist = await Member.findOne({email: email});
-
         if(userExist) {
             return res.status(409).json({ message: 'Member already exist.' });
         }

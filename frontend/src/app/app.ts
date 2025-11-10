@@ -1,13 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user';
-import { NgFor } from '@angular/common';
 
-import { LandingPage } from "./components/landing-page/landing-page";
+import { LandingPage } from "./landing-page/landing-page";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgFor, LandingPage],
+  imports: [RouterOutlet, LandingPage],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

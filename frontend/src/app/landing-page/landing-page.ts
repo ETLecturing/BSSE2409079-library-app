@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RegisterForm } from "../register-form/register-form";
-import { LoginForm } from '../login-form/login-form';
+import { RegisterForm } from "../components/register-form/register-form";
+import { LoginForm } from '../components/login-form/login-form';
 
 @Component({
   selector: 'app-landing-page',
