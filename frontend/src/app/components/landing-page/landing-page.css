@@ -1,9 +1,13 @@
+.landing-page h1 {
+    padding: 0 2rem;
+}
+
 .auth-section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2rem;
-    padding: 0 2rem;
+    gap: 4rem;
+    padding: 0 4rem;
     margin-top: 4rem;
 }
 
