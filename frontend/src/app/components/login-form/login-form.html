@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm" (submit)="loginUser($event)">
     <h2>User Login</h2>
-    <input name="email" type="email" formControlName="email" placeholder="Email Address">
-    <input name="password" type="password" formControlName="password" placeholder="Password">
-    <button>Log In</button>
+    <input name="email" type="email" formControlName="email" placeholder="Email Address" required>
+    <input name="password" type="password" formControlName="password" placeholder="Password" required>
+    <button [disabled]="!loginForm.valid">Log In</button>
 </form>
