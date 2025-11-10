@@ -2,28 +2,24 @@ const bcryptor = require('../utils/bcryptor');
 const Member = require('../models/Member');
 
 async function createMember(req, res) {
+
+    const {name, email, password} = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
     try {
-
-        const name = req.body.name;
-        const email = req.body.email;
-        const password = req.body.password;
-
         const userExist = await Member.findOne({email: email});
 
-        if(!userExist) {
-            const newMember = await Member.create({
-                name: name,
-                email: email,
-                password_hash: await bcryptor.hashPassword(password)
-            });
-
-            await newMember.save();
-            console.log('New Member created and saved:', newMember);
-
-        } else {
-            console.log('User already exist!');
-            console.log(userExist);
+        if(userExist) {
+            return res.status(409).json({ message: 'Member already exist.' });
         }
+
+        const hashedPassword = await bcryptor.hashPassword(password);
+        const newMember = await Member.create({name: name, email: email, password_hash: hashedPassword});
+        
+        res.status(201).json({ message: 'Member registration successful!' });
 
     } catch (error) {
         res.status(500).json({ message: error.message });
