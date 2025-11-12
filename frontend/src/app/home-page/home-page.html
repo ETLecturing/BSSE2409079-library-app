@@ -7,13 +7,13 @@
         <!-- <input [(ngModel)]="filter" (ngModelChange)=""/> -->
 
         <div class="book-list">
-
-            <div class="book-single">
-                <img src="b001.png" alt="b001">
-                <p>Book Title</p>
-                <p>Status</p>
-            </div>
-
+            @for(book of books; track book.title) {
+                <div class="book-single">
+                    <img [src]="book.imgUrl" alt="{{book.title}}">
+                    <p>{{book.title}}</p>
+                    <p>{{book.status}}</p>
+                </div>
+            }
         </div>
 
     </div>

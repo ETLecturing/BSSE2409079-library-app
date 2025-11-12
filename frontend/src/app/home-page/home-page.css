@@ -28,6 +28,10 @@
 .book-list {
     flex: 7;
     padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .book-single {
@@ -44,6 +48,10 @@
 .book-single img {
     height: 8rem;
     width: 8rem;
+    transition: transform .2s;
+}
+.book-single img:hover {
+    transform: scale(1.2);
 }
 
 /* Profile */
