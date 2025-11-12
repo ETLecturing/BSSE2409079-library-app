@@ -10,6 +10,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Express application!');
 });
 
+
+
 // Example for angular
 app.get('/api/users', (req, res) => {
   res.json([
@@ -18,25 +20,8 @@ app.get('/api/users', (req, res) => {
   ]);
 });
 
-app.post('/api/loginUser', async (req, res) => {
-  try {
-    const member = await Member.findOne({email: req.body.email});
-
-    if(member){
-      console.log('Member exists!');
-    } else {
-      console.log('Member does not exist!');
-    }
-
-  } catch(err) {
-    console.log(err);
-  }
-
-  res.json('Data received! Saving data...', req.body);
-});
-
-// dev
+// Routes
 app.use('/member', require('./routes/memberRoutes'));
-
+app.use('/book', require('./routes/bookRoutes'));
 
 module.exports = app;
