@@ -1,12 +1,11 @@
 <section class="home-page">
+    <h1>Codex Library</h1>
 
-    <div class="book-section">
-
-        <h1>Codex Library</h1>
-
+    <div class="home-body">
         <div class="book-list">
+
             @for(book of books; track book.title) {
-                <a class="book-single">
+                <a class="book-card">
                     <img [src]="book.imgUrl" alt="{{book.title}}">
                     <p>{{book.title}}</p>
                     <p>{{book.status}}</p>
@@ -14,15 +13,13 @@
             }
         </div>
 
+        <div class="profile-section">
+
+            <h2>Welcome, Name!</h2>
+            <p>Reserved Books</p>
+            <p>Borrowed Books</p>
+            <button>Log Out</button>
+
+        </div>
     </div>
-
-    <div class="profile-section">
-
-        <h2>Welcome, Name!</h2>
-        <p>Reserved Books</p>
-        <p>Borrowed Books</p>
-        <button>Log Out</button>
-
-    </div>
-
 </section>
