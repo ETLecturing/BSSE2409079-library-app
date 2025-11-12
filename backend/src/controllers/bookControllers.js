@@ -24,4 +24,14 @@ async function addBook(req, res) {
     }
 }
 
-module.exports = { addBook };
+async function getAllBooks(req, res) {
+    try {
+        const allBooks = await Book.find();
+        res.json(allBooks);
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { addBook, getAllBooks };
