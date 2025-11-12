@@ -3,16 +3,14 @@
     <div class="book-section">
 
         <h1>Codex Library</h1>
-        <h1>Searchbar</h1>
-        <!-- <input [(ngModel)]="filter" (ngModelChange)=""/> -->
 
         <div class="book-list">
             @for(book of books; track book.title) {
-                <div class="book-single">
+                <a class="book-single">
                     <img [src]="book.imgUrl" alt="{{book.title}}">
                     <p>{{book.title}}</p>
                     <p>{{book.status}}</p>
-                </div>
+                </a>
             }
         </div>
 
