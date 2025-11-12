@@ -1,0 +1,12 @@
+<form [formGroup]="addBookForm" (submit)="addBook($event)">
+    <h2>Add a Book</h2>
+    <input name="title" type="text" formControlName="title" placeholder="Book Title" required>
+    <input name="author" type="text" formControlName="author" placeholder="Book Author" required>
+    <input name="publisher" type="text" formControlName="publisher" placeholder="Publisher Name" required>
+    <input name="year" type="number" formControlName="year" placeholder="Year Published" required>
+    <input name="genre" type="text" formControlName="genre" placeholder="Genre" required>
+    <input name="language" type="text" formControlName="language" placeholder="Language" required>
+    <input name="imgUrl" type="text" formControlName="imgUrl" placeholder="Image URL" required>
+    <input name="status" type="text" formControlName="status" placeholder="Status" required>
+    <button [disabled]="!addBookForm.valid">Add Book</button>
+</form>
