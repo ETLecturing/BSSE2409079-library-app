@@ -5,14 +5,37 @@
         <div class="detail-card">
             <img [src]="book.imgUrl">
 
+            <button class="back-button" (click)="goBack()">Back</button>
+
             <div class="details">
                 <h2>{{book.title}}</h2>
-                <p>{{book.author}}</p>
-                <p>{{book.publisher}}</p>
-                <p>{{book.year}}</p>
-                <p>{{book.genre}}</p>
-                <p>{{book.language}}</p>
-                <p>{{book.status}}</p>
+
+                <table>
+                    <tr>
+                        <th>Author</th>
+                        <th>: {{book.author}}</th>
+                    </tr>
+                    <tr>
+                        <td>Publisher</td>
+                        <td>: {{book.publisher}}</td>
+                    </tr>
+                    <tr>
+                        <td>Year Published</td>
+                        <td>: {{book.year}}</td>
+                    </tr>
+                    <tr>
+                        <td>Genre</td>
+                        <td>: {{book.genre}}</td>
+                    </tr>
+                    <tr>
+                        <td>Language</td>
+                        <td>: {{book.language}}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>: {{book.status}}</td>
+                    </tr>
+                </table>
 
                 <button type="button">Reserve</button>
 

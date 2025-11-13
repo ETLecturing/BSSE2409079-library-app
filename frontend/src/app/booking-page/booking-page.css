@@ -13,21 +13,40 @@
     display: flex;
     flex-direction: row;
     height: 85vh;
+    margin-right: 4rem;
 }
-
 .detail-card img {
     width: 24rem;
     height: 24rem;
     align-self: center;
     padding: 4rem;
-    transition: transform .2s;
-}
-.detail-card img:hover {
-    transform: scale(1.1);
 }
 .detail-card .details {
     flex: 1;
-    padding-left: 4rem;
+    padding-left: 2rem;
+    border: 1px solid silver;
+}
 
-    border: 1px solid darkblue;
+.back-button {
+    height: 3rem;
+    width: 3rem;
+}
+
+/* .details */
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+.details > * {
+    border: 1px solid goldenrod;
+}
+.details table { width: 60%; }
+.details th {
+    font-weight: normal;
+    text-align: left;
+    padding-left: 2rem;
+}
+.details td {
+    padding-left: 2rem;
 }

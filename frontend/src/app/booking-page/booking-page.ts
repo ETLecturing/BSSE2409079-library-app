@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -24,7 +25,7 @@ export class BookingPage implements OnInit {
   private getOneBookUrl = `http://localhost:3000/book/api/getOne/`;
   book!: Book;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private _location: Location) {}
 
   ngOnInit(): void {
     const specificBookId = this.route.snapshot.paramMap.get('id');
@@ -35,14 +36,12 @@ export class BookingPage implements OnInit {
   
   getOneBook(url: string): void {
     this.http.get<Book>(url).subscribe({
-      next: (data) => {
-        this.book = data;
-        console.log('Books loaded:', this.book);
-      },
-      error: (error) => {
-        console.log('Error fetching books:', error);
-      }
+      next: (data) => { this.book = data; },
+      error: (error) => { console.log('Error fetching books:', error); }
     });
   }
-  
+
+  goBack(): void {
+    this._location.back();
+  }
 }
