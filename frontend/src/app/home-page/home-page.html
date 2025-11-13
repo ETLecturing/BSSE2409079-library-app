@@ -5,11 +5,11 @@
         <div class="book-list">
 
             @for(book of books; track book.title) {
-                <a class="book-card">
+                <div class="book-card" (click)="openBook(book._id)">
                     <img [src]="book.imgUrl" alt="{{book.title}}">
                     <p>{{book.title}}</p>
                     <p>{{book.status}}</p>
-                </a>
+                </div>
             }
         </div>
 

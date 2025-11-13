@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface Book {
+  _id: string;
   title: string;
   author: string;
   publisher: string;
@@ -20,17 +21,17 @@ interface Book {
   styleUrl: './home-page.css'
 })
 export class HomePage implements OnInit {
-  private apiUrl = 'http://localhost:3000/book/api/getAll';
+  private getAllBooksUrl = 'http://localhost:3000/book/api/getAll';
   books: Book[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.getBooks();
   }
 
   getBooks(): void {
-    this.http.get<Book[]>(this.apiUrl).subscribe({
+    this.http.get<Book[]>(this.getAllBooksUrl).subscribe({
       next: (data) => {
         this.books = data;
         console.log('Books loaded:', this.books);
@@ -39,6 +40,10 @@ export class HomePage implements OnInit {
         console.log('Error fetching books:', error);
       }
     });
-    
+  }
+
+  openBook(bookId: string): void {
+    this.router.navigate(['/booking']);
+    console.log(bookId);
   }
 }
