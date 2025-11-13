@@ -44,6 +44,12 @@
     white-space: nowrap; 
     text-align: center;
 }
+.book-card p:hover {
+    overflow: visible;
+    text-overflow: clip;
+    background-color: white;
+    white-space: normal;
+}
 .book-card img {
     display: block;
     height: 8rem;
@@ -54,7 +60,7 @@
     cursor: pointer;
 }
 .book-card:hover img {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 /* Profile */

@@ -27,10 +27,10 @@ export class HomePage implements OnInit {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.getBooks();
+    this.getAllBooks();
   }
 
-  getBooks(): void {
+  getAllBooks(): void {
     this.http.get<Book[]>(this.getAllBooksUrl).subscribe({
       next: (data) => {
         this.books = data;
@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
   }
 
   openBook(bookId: string): void {
-    this.router.navigate(['/booking']);
-    console.log(bookId);
+    this.router.navigate(['/booking', bookId]);
   }
+
 }

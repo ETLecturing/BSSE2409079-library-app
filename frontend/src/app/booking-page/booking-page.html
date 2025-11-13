@@ -1,28 +1,31 @@
 <section class="booking-page">
     <h1>Codex Library</h1>
 
-    <div class="detail-card">
+    @if(book) {
+        <div class="detail-card">
+            <img [src]="book.imgUrl">
 
-        <img src="b001.png">
+            <div class="details">
+                <h2>{{book.title}}</h2>
+                <p>{{book.author}}</p>
+                <p>{{book.publisher}}</p>
+                <p>{{book.year}}</p>
+                <p>{{book.genre}}</p>
+                <p>{{book.language}}</p>
+                <p>{{book.status}}</p>
 
-        <div class="details">
-            <h2>Premonitions</h2>
-            <p>Author: Jude Watson</p>
-            <p>Publisher: Scholastic</p>
-            <p>Year: 2004</p>
-            <p>Genre: Mystery</p>
-            <p>Language: English</p>
-            <p>Status: Available</p>
+                <button type="button">Reserve</button>
 
-            <button type="button">Reserve</button>
-
-            <form>
-                <input type="date" name="start_date">
-                <input type="date" name="end_date">
-                <br>
-                <button type="submit">Borrow</button>
-            </form>
+                <form>
+                    <input type="date" name="start_date">
+                    <input type="date" name="end_date">
+                    <br>
+                    <button type="submit">Borrow</button>
+                </form>
+            </div>
         </div>
+    } @else {
+        <h1>Loading...</h1>
+    }
 
-    </div>
 </section>
