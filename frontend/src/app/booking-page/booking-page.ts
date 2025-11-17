@@ -30,7 +30,7 @@ export class BookingPage implements OnInit {
   ngOnInit(): void {
     const specificBookId = this.route.snapshot.paramMap.get('id');
     const completeUrl = this.getOneBookUrl + specificBookId;
-
+    
     this.getOneBook(completeUrl);
   }
   

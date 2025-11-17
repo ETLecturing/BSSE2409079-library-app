@@ -50,3 +50,18 @@
 .details td {
     padding-left: 2rem;
 }
+
+/* Txn Elements */
+.reserve-btn {
+    width: 8rem;
+    height: 2rem;
+}
+
+.borrow-form button input[type=date] {
+    width: 4rem;
+    height: 2rem;
+}
+.borrow-form button {
+    width: 8rem;
+    height: 2rem;
+}
