@@ -1,5 +1,6 @@
 const bcryptor = require('../utils/bcryptor');
 const Member = require('../models/Member');
+const jwt = require('jsonwebtoken');
 
 async function createMember(req, res) {
     const {name, email, password} = req.body;
@@ -41,7 +42,13 @@ async function loginMember(req, res) {
             return res.status(401).json({ message: 'Wrong password!' });
         }
 
-        res.status(200).json({ message: 'Login successful!' });
+        const token = jwt.sign(
+            { memberId: userExist._id },
+            process.env.JWT_SECRET,
+            {expiresIn: process.env.JWT_EXPIRE}
+        );
+
+        res.status(200).json({ token });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
