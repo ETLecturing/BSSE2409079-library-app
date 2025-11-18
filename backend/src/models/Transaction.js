@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-    member: {
+    memberId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Member'
     },
-    book: {
+    bookId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Book'
     },
