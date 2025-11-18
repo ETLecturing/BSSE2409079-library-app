@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
     member: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Member'
     },
     book: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Book'
     },
     type: {

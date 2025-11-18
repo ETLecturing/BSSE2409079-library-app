@@ -1,10 +1,11 @@
-const Transaction = required('./Transaction.js');
+const Transaction = require('./Transaction.js');
 const mongoose = require('mongoose');
 
 const reservationSchema = new mongoose.Schema({
     reservationDate: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     }
 });
 
