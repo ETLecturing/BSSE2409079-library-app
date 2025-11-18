@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login-form',
@@ -16,20 +17,19 @@ export class LoginForm {
     password: new FormControl('')
   });
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   loginUser(event: Event) {
     event.preventDefault();
 
-    console.log('Form is submitted!')
-    console.log(this.loginForm.value)
-
     if(this.loginForm.valid) {
-      this.http.post('http://localhost:3000/member/api/login', this.loginForm.value)
+      this.http.post<{ token: string }>('http://localhost:3000/member/api/login', this.loginForm.value)
       .subscribe({
-        next: response => this.router.navigate(['/home']),
-        error: error => console.log('Error', error),
-        complete: () => console.log('Complete')
+        next: (res) => {
+          this.authService.saveToken(res.token);
+          this.router.navigate(['/home']);
+        },
+        error: error => console.log('Login Error', error)
       });
     }
 
