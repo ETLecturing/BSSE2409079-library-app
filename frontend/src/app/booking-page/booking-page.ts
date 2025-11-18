@@ -24,12 +24,13 @@ interface Book {
 export class BookingPage implements OnInit {
   private getOneBookUrl = `http://localhost:3000/book/api/getOne/`;
   book!: Book;
+  specificBookId!: string | null;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private _location: Location) {}
 
   ngOnInit(): void {
-    const specificBookId = this.route.snapshot.paramMap.get('id');
-    const completeUrl = this.getOneBookUrl + specificBookId;
+    this.specificBookId = this.route.snapshot.paramMap.get('id');
+    const completeUrl = this.getOneBookUrl + this.specificBookId;
     
     this.getOneBook(completeUrl);
   }
@@ -37,11 +38,19 @@ export class BookingPage implements OnInit {
   getOneBook(url: string): void {
     this.http.get<Book>(url).subscribe({
       next: (data) => { this.book = data; },
-      error: (error) => { console.log('Error fetching books:', error); }
+      error: (error) => { console.log('getOneBook() Error:', error); }
     });
   }
 
   goBack(): void {
     this._location.back();
   }
+
+  test(): void {
+    const testUrl = 'http://localhost:3000/transaction/api/reserve/' + this.specificBookId;
+    this.http.post(testUrl, {}).subscribe({
+      next: () => { console.log("Fired."); }
+    });
+  }
+
 }
