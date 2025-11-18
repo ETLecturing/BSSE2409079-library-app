@@ -5,6 +5,11 @@ const Booking = require('../models/Booking');
 async function createReservation(req, res) {
     // get today's date
     // create a Reservation of the book, enum 'reserve'
+    try {
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 async function deleteReservation(req, res) {
@@ -19,3 +24,5 @@ async function createBooking(req, res) {
 async function deleteBooking(req, res) {
     // home-page
 }
+
+module.exports = { createReservation, createBooking };
