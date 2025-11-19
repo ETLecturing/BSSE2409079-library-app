@@ -35,13 +35,11 @@ export class BookingPage implements OnInit {
     this.getOneBook(completeUrl);
   }
 
-  goBack(): void {
-    this._location.back();
-  }
+  goBack(): void { this._location.back(); }
   
   getOneBook(url: string): void {
     this.http.get<Book>(url).subscribe({
-      next: (data) => { this.book = data; },
+      next: (data) => { this.book = data; console.log("getOneBook() Triggered"); },
       error: (error) => { console.log('getOneBook() Error:', error); }
     });
   }
@@ -65,12 +63,10 @@ export class BookingPage implements OnInit {
 
     console.log(this.borrowForm.value);
 
-    /*
     this.http.post(borrowUrl, this.borrowForm.value).subscribe({
       next: () => { console.log("borrowBook() Triggered"); },
       error: (error) => { console.log('borrowBook() Error:', error); }
     });
-    */
   }
 
 }
