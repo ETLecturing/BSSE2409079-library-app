@@ -21,15 +21,11 @@ export class RegisterForm {
   registerUser(event: Event) {
     event.preventDefault();
 
-    console.log('Form is submitted!')
-    console.log(this.registerForm.value)
-
     if(this.registerForm.valid) {
       this.http.post('http://localhost:3000/member/api/register', this.registerForm.value)
       .subscribe({
-        next: response => console.log('Success', response),
-        error: error => console.log('Error', error),
-        complete: () => console.log('Complete')
+        next: response => console.log('registerUser() Triggered', response),
+        error: error => console.log('registerUser() Error:', error)
       });
     }
 

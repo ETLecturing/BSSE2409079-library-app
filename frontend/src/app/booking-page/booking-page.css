@@ -36,7 +36,7 @@
 .details {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 3rem;
 }
 .details > * {
     border: 1px solid goldenrod;
@@ -52,16 +52,14 @@
 }
 
 /* Txn Elements */
-.reserve-btn {
-    width: 8rem;
-    height: 2rem;
-}
-
-.borrow-form button input[type=date] {
-    width: 4rem;
-    height: 2rem;
-}
+.reserve-btn,
+.borrow-form select,
 .borrow-form button {
     width: 8rem;
     height: 2rem;
+}
+.borrow-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }

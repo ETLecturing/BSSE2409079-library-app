@@ -37,13 +37,19 @@
                     </tr>
                 </table>
 
-                <button class="reserve-btn" type="button" (click)="test()">Reserve</button>
+                <button class="reserve-btn" type="button" (click)="reserveBook()">Reserve</button>
 
-                <form class="borrow-form">
-                    <input type="date" name="start_date">
-                    <input type="date" name="end_date">
-                    <br>
-                    <button type="submit">Borrow</button>
+                <form class="borrow-form" [formGroup]="borrowForm" (submit)="borrowBook($event)">
+                    <label for="period">Borrow Period</label>
+
+                    <select name="period" id="period" formControlName="period" required>
+                        <option value=7>1 week</option>
+                        <option value=14>2 weeks</option>
+                        <option value=21>3 weeks</option>
+                        <option value=30>1 month</option>
+                    </select>
+
+                    <button [disabled]="!borrowForm.valid">Borrow</button>
                 </form>
             </div>
         </div>
