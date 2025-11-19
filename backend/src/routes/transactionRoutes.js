@@ -4,6 +4,6 @@ const transactionControllers = require('../controllers/transactionControllers');
 const { authenticateToken } = require('../middleware/auth');
 
 router.post('/api/reserve/:bookId', authenticateToken, transactionControllers.createReservation);
-router.post('/api/book/:bookId', authenticateToken, transactionControllers.createBooking);
+router.post('/api/borrow/:bookId', authenticateToken, transactionControllers.createBooking);
 
 module.exports = router;
