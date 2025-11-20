@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const Book = require('../models/Book');
+const Reservation = require('../models/Reservation');
+const Booking = require('../models/Booking');
 
 async function addBook(req, res) {
     const {title, author, publisher, year, genre, language, imgUrl, status} = req.body;
-
     try {
-        const newBook = await Book.create({
+        await Book.create({
             title: title, 
             author: author, 
             publisher: publisher,
@@ -37,7 +38,7 @@ async function getOneBook(req, res) {
 
     try {
         const book = await Book.findOne({_id: bookId});
-        res.json(book);
+        res.status(200).json(book);
         
     } catch (error) {
         res.status(500).json({ message: error.message });
