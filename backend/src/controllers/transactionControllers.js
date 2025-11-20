@@ -1,23 +1,29 @@
-const Transaction = require('../models/Transaction');
+const mongoose = require('mongoose');
 const Reservation = require('../models/Reservation');
 const Booking = require('../models/Booking');
-const mongoose = require('mongoose');
+const { updateBookStatus } = require('../utils/bookUpdater');
 
 async function createReservation(req, res) {
     try {
         const memberId = new mongoose.Types.ObjectId(req.user.memberId);
         const bookId = new mongoose.Types.ObjectId(req.params.bookId);
 
-        const isBookReserved = await Reservation.findOne({memberId: memberId, bookId: bookId});
-        if(isBookReserved) {
-            return res.status(409).json({ message: "Reservation exist!" });
+        const existingReservation = await Reservation.findOne({memberId: memberId, bookId: bookId});
+
+        if(existingReservation) {
+            console.log(existingReservation);
+            return res.status(409).json({ message: "You already reserved this book!" });
+        } else {
+            console.log('No reservation on this book.');
         }
 
-        const newReservation = await Reservation.create({
-            memberId: memberId,
-            bookId: bookId,
+        await Reservation.create({
+            memberId,
+            bookId,
             type: 'reserve'
         });
+
+        updateBookStatus(bookId);
 
         res.status(200).json({ message: "Reservation created" });
     } catch (error) {
@@ -25,57 +31,62 @@ async function createReservation(req, res) {
     }
 }
 
-async function deleteReservation(req, res) {
-
-}
-
+// update book availability
 async function createBooking(req, res) {
     try {
         const memberId = new mongoose.Types.ObjectId(req.user.memberId);
         const bookId = new mongoose.Types.ObjectId(req.params.bookId);
         const { period } = req.body
 
-        const isBookBorrowed = await Booking.findOne({bookId: bookId});
-        if(isBookBorrowed) {
-            console.log('This book is out on loan.');
-            return res.status(409).json({ message: "Book is borrowed." });
+        if (!period || isNaN(+period)) {
+            return res.status(400).json({ message: "Invalid borrowing period." });
         }
 
-        // later check if reserve date is the earliest, if no, then do not delete
-        const isBookReserved = await Reservation.findOne({bookId: bookId});
-        if (isBookReserved) {
+        const existingBorrow = await Booking.findOne({ bookId });
+        if(existingBorrow) {
+            return res.status(409).json({ message: "Book is borrowed by someone else." });
+        }
 
-            if (isBookReserved.memberId.equals(memberId)) {
-                console.log('This book is reserved by you! Deleting reservation.');
-                await Reservation.deleteOne(isBookReserved);
+        const existingReservation = await Reservation.findOne({ bookId }).sort({ reservedDate: 1 });
 
-            } else {
-                console.log('This book is not reserved by you!');
-            }
+        if(!existingReservation) {
+            console.log('This book is not reserved. You may borrow it.');
         } else {
-            console.log('This book is not reserved.');
+            if (!existingReservation.memberId.equals(memberId)) {
+                return res.status(403).json({ message: "The book is reserved but it's not your turn." }); 
+            } else {
+                console.log('The reservation belongs to you! Updating now...');
+                await Reservation.deleteOne({_id: existingReservation._id});
+            }
         }
-
+        
         // Date calculation
         const startDate = new Date();
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + +period);
 
-        const newBooking = await Booking.create({
-            memberId: memberId,
-            bookId: bookId,
+        // Booking creation
+        await Booking.create({
+            memberId,
+            bookId,
             type: 'borrow',
-            startDate: startDate,
-            period: period,
-            endDate: endDate,
+            startDate,
+            period: +period,
+            endDate,
             returnDate: null,
             overdueFee: 0
         });
 
-        res.status(200).json({ message: "Record created." });
+        updateBookStatus(bookId);
+
+        res.status(200).json({ message: "Booking created." });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+}
+
+async function deleteReservation(req, res) {
+    // welcome back! let's work on this now
 }
 
 async function deleteBooking(req, res) {
