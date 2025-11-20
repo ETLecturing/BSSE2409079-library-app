@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 async function createMember(req, res) {
     const {name, email, password} = req.body;
-
     if (!name || !email || !password) {
         return res.status(400).json({ message: 'All fields are required' });
     }
@@ -16,7 +15,7 @@ async function createMember(req, res) {
         }
 
         const hashedPassword = await bcryptor.hashPassword(password);
-        const newMember = await Member.create({name: name, email: email, password_hash: hashedPassword});
+        await Member.create({name: name, email: email, password_hash: hashedPassword});
 
         res.status(201).json({ message: 'Member registration successful!' });
     } catch (error) {
@@ -25,7 +24,6 @@ async function createMember(req, res) {
 }
 
 async function loginMember(req, res) {
-
     const {email, password} = req.body;
     if (!email || !password) {
         return res.status(400).json({ message: 'All fields are required' });
@@ -43,9 +41,9 @@ async function loginMember(req, res) {
         }
 
         const token = jwt.sign(
-            { memberId: userExist._id },
+            { memberId: userExist._id, memberName: userExist.name },
             process.env.JWT_SECRET,
-            {expiresIn: process.env.JWT_EXPIRE}
+            { expiresIn: process.env.JWT_EXPIRE }
         );
 
         res.status(200).json({ token });
