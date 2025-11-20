@@ -1,6 +1,5 @@
-const bcryptor = require('../utils/bcryptor');
-const Book = require('../models/Book');
 const mongoose = require('mongoose');
+const Book = require('../models/Book');
 
 async function addBook(req, res) {
     const {title, author, publisher, year, genre, language, imgUrl, status} = req.body;
@@ -16,8 +15,6 @@ async function addBook(req, res) {
             imgUrl: imgUrl,
             status: status
         });
-
-        console.log(newBook);
         
         res.status(201).json({ message: 'Book added.' });
     } catch (error) {
