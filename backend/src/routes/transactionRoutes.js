@@ -6,4 +6,7 @@ const { authenticateToken } = require('../middleware/auth');
 router.post('/api/reserve/:bookId', authenticateToken, transactionControllers.createReservation);
 router.post('/api/borrow/:bookId', authenticateToken, transactionControllers.createBooking);
 
+router.get('/api/getReservations', authenticateToken, transactionControllers.getReservations);
+router.get('/api/getBookings', authenticateToken, transactionControllers.getBookings);
+
 module.exports = router;

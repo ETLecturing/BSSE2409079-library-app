@@ -25,7 +25,7 @@ async function createReservation(req, res) {
 
         updateBookStatus(bookId);
 
-        res.status(200).json({ message: "Reservation created" });
+        res.status(201).json({ message: "Reservation created" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -79,7 +79,7 @@ async function createBooking(req, res) {
 
         updateBookStatus(bookId);
 
-        res.status(200).json({ message: "Booking created." });
+        res.status(201).json({ message: "Booking created." });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -93,4 +93,30 @@ async function deleteBooking(req, res) {
     // home-page
 }
 
-module.exports = { createReservation, createBooking };
+async function getReservations(req, res) {
+    const memberId = new mongoose.Types.ObjectId(req.user.memberId);
+
+    try {
+        const reservedBooks = await Reservation.find({memberId});
+        console.log(reservedBooks);
+        res.status(200).json(reservedBooks);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getBookings(req, res) {
+    const memberId = new mongoose.Types.ObjectId(req.user.memberId);
+
+    try {
+        const borrowedBooks = await Booking.find({memberId});
+        console.log(borrowedBooks);
+        res.status(200).json(borrowedBooks);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { createReservation, createBooking, getReservations, getBookings };
