@@ -2,8 +2,8 @@
     <h1>Codex Library</h1>
 
     <div class="home-body">
-        <div class="book-list">
 
+        <div class="bookshelf">
             @for(book of books; track book.title) {
                 <div class="book-card" (click)="openBook(book._id)">
                     <img [src]="book.imgUrl" alt="{{book.title}}">
@@ -14,10 +14,42 @@
         </div>
 
         <div class="profile-section">
-
             <h2>Welcome, {{memberName}}!</h2>
-            <p>Reserved Books</p>
-            <p>Borrowed Books</p>
+
+            <div class="user-books">
+                <p>Reserved Books</p>
+                @for(item of combinedReservations; track item.book.title) {
+                    <div class="user-books-card">
+                        <div class="user-books-card-text">
+                            <p>{{item.book?.title}}</p>
+                            <p>{{item.book?.author}}</p>
+                            <p>Reserved on: {{item.reservation?.reservationDate}}</p>
+                        </div>
+                        <div class="user-books-card-button">
+                            <button>x</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+            <div class="user-books">
+                <p>Borrowed Books</p>
+                @for(item of combinedBookings; track item.book.title) {
+                    <div class="user-books-card">
+                        <div class="user-books-card-text">
+                            <p>{{item.book?.title}}</p>
+                            <p>{{item.book?.author}}</p>
+                            <p>Due date: {{item.booking?.endDate}}</p>
+                            <p>Overdue Fee: {{item.booking?.overdueFee}}</p>
+                        </div>
+                        <div class="user-books-card-button">
+                            <button>x</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
             <button (click)="logOut()">Log Out</button>
 
         </div>

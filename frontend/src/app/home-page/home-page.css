@@ -15,8 +15,8 @@
 }
 
 /* List of Books */
-.book-list {
-    flex: 4;
+.bookshelf {
+    flex: 3;
     height: 79vh;
     border: 1px solid silver;
     padding: 2rem;
@@ -30,12 +30,10 @@
 .book-card {
     width: fit-content;
     height: fit-content;
-    border: 1px solid green;
     margin: 0;
 }
 .book-card > * {
     margin: 0;
-    border: 1px solid greenyellow;
 }
 .book-card p {
     width: 8rem;
@@ -81,11 +79,44 @@
     justify-content: center;
     border-bottom: 1px solid grey;
 }
-.profile-section p {
-    flex: 5;
-    border-bottom: 1px solid grey;
-}
 .profile-section button {
     flex: 1;
     margin: 1rem;
+}
+.profile-section button:hover {
+    background-color: lightcoral;
+    color: white;
+}
+
+.user-books {
+    flex: 5;
+    border-bottom: 1px solid grey;
+    overflow-y: scroll;
+}
+
+.user-books-card {
+    display: flex;
+    border: 1px solid grey;
+    padding: 0.2rem;
+}
+
+.user-books-card-text {
+    flex: 4;
+}
+.user-books-card-text p {
+    font-size: 0.7rem;
+}
+.user-books-card-text p:first-of-type {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.user-books-card-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.user-books-card-button button {
+    width: 2rem;
+    height: 2rem;
 }

@@ -24,24 +24,56 @@ interface Book {
 export class HomePage implements OnInit {
   memberName!: string;
   books: Book[] = [];
+  reservations: any[] = [];
+  bookings: any[] = [];
+
+  combinedReservations: any[] = [];
+  combinedBookings: any[] = [];
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getAllBooks();
+    this.getReservedBooks();
+    this.getBorrowedBooks();
     this.memberName = this.authService.memberName || '';
   }
 
   getAllBooks(): void {
-    const getAllBooksUrl = 'http://localhost:3000/book/api/getAll';
-    this.http.get<Book[]>(getAllBooksUrl).subscribe({
-      next: (data) => {
-        this.books = data;
-        console.log('Books loaded:', this.books);
+    const url = 'http://localhost:3000/book/api/getAll';
+    this.http.get<Book[]>(url).subscribe({
+      next: (data) => { this.books = data; },
+      error: (error) => { console.log('Error fetching books:', error); }
+    });
+  }
+
+  getReservedBooks(): void {
+    const url = 'http://localhost:3000/transaction/api/getReservations';
+    this.http.get<any[]>(url).subscribe({
+      next: (data) => { 
+        this.reservations = data;
+
+        this.combinedReservations = this.reservations.map(r => {
+          const book = this.books.find(b => b._id === r.bookId);
+          return { reservation: r, book: book };
+        });
       },
-      error: (error) => {
-        console.log('Error fetching books:', error);
-      }
+      error: (error) => { console.log('Error fetching reservations:', error); }
+    });
+  }
+
+  getBorrowedBooks(): void {
+    const url = 'http://localhost:3000/transaction/api/getBookings';
+    this.http.get<any[]>(url).subscribe({
+      next: (data) => { 
+        this.bookings = data;
+
+        this.combinedBookings = this.bookings.map(r => {
+          const book = this.books.find(b => b._id === r.bookId);
+          return { booking: r, book: book };
+        });
+      },
+      error: (error) => { console.log('Error fetching bookings:', error); }
     });
   }
 
