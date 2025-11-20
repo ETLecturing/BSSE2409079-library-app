@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth-service';
 
 interface Book {
   _id: string;
@@ -21,17 +22,19 @@ interface Book {
   styleUrl: './home-page.css'
 })
 export class HomePage implements OnInit {
-  private getAllBooksUrl = 'http://localhost:3000/book/api/getAll';
+  memberName!: string;
   books: Book[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getAllBooks();
+    this.memberName = this.authService.memberName || '';
   }
 
   getAllBooks(): void {
-    this.http.get<Book[]>(this.getAllBooksUrl).subscribe({
+    const getAllBooksUrl = 'http://localhost:3000/book/api/getAll';
+    this.http.get<Book[]>(getAllBooksUrl).subscribe({
       next: (data) => {
         this.books = data;
         console.log('Books loaded:', this.books);
@@ -44,6 +47,10 @@ export class HomePage implements OnInit {
 
   openBook(bookId: string): void {
     this.router.navigate(['/booking', bookId]);
+  }
+
+  logOut(): void {
+    this.authService.logOut();
   }
 
 }
