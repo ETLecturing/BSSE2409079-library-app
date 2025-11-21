@@ -10,6 +10,6 @@ router.get('/api/getReservations', authenticateToken, transactionControllers.get
 router.get('/api/getBookings', authenticateToken, transactionControllers.getBookings);
 
 router.post('/api/deleteReservation/:bookId', authenticateToken, transactionControllers.deleteReservation);
-router.post('/api/deleteBooking/:bookId', authenticateToken, transactionControllers.deleteBooking);
+router.post('/api/returnBook/:bookId', authenticateToken, transactionControllers.returnBook);
 
 module.exports = router;

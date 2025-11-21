@@ -103,12 +103,26 @@ async function deleteReservation(req, res) {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-
 }
 
-async function deleteBooking(req, res) {
-    // home-page
-    // call update book status
+async function returnBook(req, res) {
+    const memberId = new mongoose.Types.ObjectId(req.user.memberId);
+    const bookId = new mongoose.Types.ObjectId(req.params.bookId);
+
+    try {
+        const borrowRecord = await Booking.findOne({ memberId, bookId });
+        if(!borrowRecord) {
+            return res.status(404).json({ message: "No record found." });
+        }
+
+        const returnDate = new Date();
+        await Booking.updateOne({_id: borrowRecord._id}, {type: 'return', returnDate});
+        updateBookStatus(bookId);
+
+        res.status(200).json({ message: "Book returned." });  
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 async function getReservations(req, res) {
@@ -127,7 +141,7 @@ async function getBookings(req, res) {
     const memberId = new mongoose.Types.ObjectId(req.user.memberId);
 
     try {
-        const borrowedBooks = await Booking.find({memberId});
+        const borrowedBooks = await Booking.find({memberId, type: { $ne: 'return' }});
         res.status(200).json(borrowedBooks);
 
     } catch (error) {
@@ -135,4 +149,4 @@ async function getBookings(req, res) {
     }
 }
 
-module.exports = { createReservation, createBooking, getReservations, getBookings, deleteReservation, deleteBooking };
+module.exports = { createReservation, createBooking, getReservations, getBookings, deleteReservation, returnBook };

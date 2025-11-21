@@ -8,7 +8,14 @@
                 <div class="book-card" (click)="openBook(book._id)">
                     <img [src]="book.imgUrl" alt="{{book.title}}">
                     <p>{{book.title}}</p>
-                    <p>{{book.status}}</p>
+
+                    @if(book.status == 'available') {
+                        <p class="green">{{book.status}}</p>
+                    } @else if (book.status == 'reserved') {
+                        <p class="orange">{{book.status}}</p>
+                    } @else if (book.status == 'borrowed') {
+                        <p class="red">{{book.status}}</p>
+                    }
                 </div>
             }
         </div>
@@ -44,7 +51,7 @@
                             <p>Overdue Fee: {{item.booking?.overdueFee}}</p>
                         </div>
                         <div class="user-books-card-button">
-                            <button>x</button>
+                            <button (click)="returnBook(item.booking?.bookId)">return</button>
                         </div>
                     </div>
                 }

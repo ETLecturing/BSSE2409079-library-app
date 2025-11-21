@@ -87,6 +87,15 @@ export class HomePage implements OnInit {
 
   }
 
+  returnBook(bookId: string): void {
+    const url = 'http://localhost:3000/transaction/api/returnBook/' + bookId;
+
+    this.http.post(url, {}).subscribe({
+      next: () => { console.log("returnBook() Triggered"); },
+      error: (error) => { console.log('returnBook() Error:', error); }
+    });
+  }
+
   openBook(bookId: string): void {
     this.router.navigate(['/booking', bookId]);
   }
