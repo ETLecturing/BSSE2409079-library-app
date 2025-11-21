@@ -60,9 +60,7 @@ export class BookingPage implements OnInit {
     event.preventDefault();
 
     const borrowUrl = 'http://localhost:3000/transaction/api/borrow/' + this.specificBookId;
-
-    console.log(this.borrowForm.value);
-
+    
     this.http.post(borrowUrl, this.borrowForm.value).subscribe({
       next: () => { console.log("borrowBook() Triggered"); },
       error: (error) => { console.log('borrowBook() Error:', error); }

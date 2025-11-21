@@ -86,11 +86,29 @@ async function createBooking(req, res) {
 }
 
 async function deleteReservation(req, res) {
-    // welcome back! let's work on this now
+    const memberId = new mongoose.Types.ObjectId(req.user.memberId);
+    const bookId = new mongoose.Types.ObjectId(req.params.bookId);
+
+    try {
+        const reservedBook = await Reservation.findOne({ memberId, bookId });
+
+        if(!reservedBook) {
+            return res.status(404).json({ message: "No reservation found." });
+        }
+
+        await Reservation.deleteOne({_id: reservedBook._id});
+        updateBookStatus(bookId);
+
+        res.status(200).json({ message: "Reservation deleted." });  
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
 }
 
 async function deleteBooking(req, res) {
     // home-page
+    // call update book status
 }
 
 async function getReservations(req, res) {
@@ -98,7 +116,6 @@ async function getReservations(req, res) {
 
     try {
         const reservedBooks = await Reservation.find({memberId});
-        console.log(reservedBooks);
         res.status(200).json(reservedBooks);
 
     } catch (error) {
@@ -111,7 +128,6 @@ async function getBookings(req, res) {
 
     try {
         const borrowedBooks = await Booking.find({memberId});
-        console.log(borrowedBooks);
         res.status(200).json(borrowedBooks);
 
     } catch (error) {
@@ -119,4 +135,4 @@ async function getBookings(req, res) {
     }
 }
 
-module.exports = { createReservation, createBooking, getReservations, getBookings };
+module.exports = { createReservation, createBooking, getReservations, getBookings, deleteReservation, deleteBooking };

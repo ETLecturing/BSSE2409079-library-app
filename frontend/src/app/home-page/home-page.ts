@@ -77,6 +77,16 @@ export class HomePage implements OnInit {
     });
   }
 
+  deleteReservation(bookId: string): void {
+    const url = 'http://localhost:3000/transaction/api/deleteReservation/' + bookId;
+
+    this.http.post(url, {}).subscribe({
+      next: () => { console.log("deleteReservation() Triggered"); },
+      error: (error) => { console.log('deleteReservation() Error:', error); }
+    });
+
+  }
+
   openBook(bookId: string): void {
     this.router.navigate(['/booking', bookId]);
   }
