@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-login-form',
@@ -23,7 +24,7 @@ export class LoginForm {
     event.preventDefault();
 
     if(this.loginForm.valid) {
-      this.http.post<{ token: string }>('http://localhost:3000/member/api/login', this.loginForm.value)
+      this.http.post<{ token: string }>(environment.apiUrl + '/member/api/login', this.loginForm.value)
       .subscribe({
         next: (res) => {
           this.authService.saveToken(res.token);

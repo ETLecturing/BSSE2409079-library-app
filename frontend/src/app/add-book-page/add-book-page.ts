@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-add-book-page',
@@ -30,7 +31,7 @@ export class AddBookPage {
     console.log(this.addBookForm.value)
 
     if(this.addBookForm.valid) {
-      this.http.post('http://localhost:3000/book/api/add', this.addBookForm.value)
+      this.http.post( environment.apiUrl + '/book/api/add', this.addBookForm.value)
       .subscribe({
         next: response => console.log('Book added', response),
         error: error => console.log('Error', error),

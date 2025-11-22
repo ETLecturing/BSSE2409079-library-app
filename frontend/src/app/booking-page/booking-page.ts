@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment.development';
 
 interface Book {
   _id: string;
@@ -29,7 +30,7 @@ export class BookingPage implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient, private _location: Location) {}
 
   ngOnInit(): void {
-    const getOneBookUrl = `http://localhost:3000/book/api/getOne/`;
+    const getOneBookUrl = environment.apiUrl + '/book/api/getOne/';
     this.specificBookId = this.route.snapshot.paramMap.get('id');
     const completeUrl = getOneBookUrl + this.specificBookId;
     this.getOneBook(completeUrl);
@@ -45,7 +46,7 @@ export class BookingPage implements OnInit {
   }
 
   reserveBook(): void {
-    const reserveUrl = 'http://localhost:3000/transaction/api/reserve/' + this.specificBookId;
+    const reserveUrl = environment.apiUrl + '/transaction/api/reserve/' + this.specificBookId;
     this.http.post(reserveUrl, {}).subscribe({
       next: () => { console.log("reserveBook() Triggered"); },
       error: (error) => { console.log('reserveBook() Error:', error); }
@@ -59,8 +60,7 @@ export class BookingPage implements OnInit {
   borrowBook(event: Event): void {
     event.preventDefault();
 
-    const borrowUrl = 'http://localhost:3000/transaction/api/borrow/' + this.specificBookId;
-    
+    const borrowUrl = environment.apiUrl + '/transaction/api/borrow/' + this.specificBookId;
     this.http.post(borrowUrl, this.borrowForm.value).subscribe({
       next: () => { console.log("borrowBook() Triggered"); },
       error: (error) => { console.log('borrowBook() Error:', error); }

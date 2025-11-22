@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-register-form',
@@ -22,7 +23,7 @@ export class RegisterForm {
     event.preventDefault();
 
     if(this.registerForm.valid) {
-      this.http.post('http://localhost:3000/member/api/register', this.registerForm.value)
+      this.http.post( environment.apiUrl + '/member/api/register', this.registerForm.value)
       .subscribe({
         next: response => console.log('registerUser() Triggered', response),
         error: error => console.log('registerUser() Error:', error)

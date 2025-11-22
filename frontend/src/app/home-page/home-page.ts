@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
+import { environment } from '../../environments/environment.development';
 
 interface Book {
   _id: string;
@@ -40,7 +41,7 @@ export class HomePage implements OnInit {
   }
 
   getAllBooks(): void {
-    const url = 'http://localhost:3000/book/api/getAll';
+    const url = environment.apiUrl + '/book/api/getAll';
     this.http.get<Book[]>(url).subscribe({
       next: (data) => { this.books = data; },
       error: (error) => { console.log('Error fetching books:', error); }
@@ -48,7 +49,7 @@ export class HomePage implements OnInit {
   }
 
   getReservedBooks(): void {
-    const url = 'http://localhost:3000/transaction/api/getReservations';
+    const url = environment.apiUrl + '/transaction/api/getReservations';
     this.http.get<any[]>(url).subscribe({
       next: (data) => { 
         this.reservations = data;
@@ -63,7 +64,7 @@ export class HomePage implements OnInit {
   }
 
   getBorrowedBooks(): void {
-    const url = 'http://localhost:3000/transaction/api/getBookings';
+    const url = environment.apiUrl + '/transaction/api/getBookings';
     this.http.get<any[]>(url).subscribe({
       next: (data) => { 
         this.bookings = data;
@@ -78,7 +79,7 @@ export class HomePage implements OnInit {
   }
 
   deleteReservation(bookId: string): void {
-    const url = 'http://localhost:3000/transaction/api/deleteReservation/' + bookId;
+    const url = environment.apiUrl + '/transaction/api/deleteReservation/' + bookId;
 
     this.http.post(url, {}).subscribe({
       next: () => { console.log("deleteReservation() Triggered"); },
@@ -88,7 +89,7 @@ export class HomePage implements OnInit {
   }
 
   returnBook(bookId: string): void {
-    const url = 'http://localhost:3000/transaction/api/returnBook/' + bookId;
+    const url = environment.apiUrl + '/transaction/api/returnBook/' + bookId;
 
     this.http.post(url, {}).subscribe({
       next: () => { console.log("returnBook() Triggered"); },
