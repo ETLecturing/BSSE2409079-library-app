@@ -4,8 +4,9 @@ const Booking = require('../models/Booking');
 
 async function updateBookStatus(bookId) {
     try {
-        const book = await Book.findById(bookId);
+        const book = await Book.findOne({ _id: bookId });
         if (!book) {
+            console.log('Book does not exist!');
             throw new Error(`Book with _id: ${bookId} cannot be found.`);
         }
 
@@ -21,7 +22,7 @@ async function updateBookStatus(bookId) {
         }
 
         await Book.updateOne({ _id: bookId }, { status: 'available' });
-        
+
     } catch (error) {
         console.log('Database error', error);
         throw error;
