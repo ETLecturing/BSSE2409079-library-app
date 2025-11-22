@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth-service';
 import { environment } from '../../environments/environment.development';
+import { SocketService } from '../services/socket-service';
 
 interface Book {
   _id: string;
@@ -31,13 +32,26 @@ export class HomePage implements OnInit {
   combinedReservations: any[] = [];
   combinedBookings: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private socketService: SocketService) {}
 
   ngOnInit(): void {
     this.getAllBooks();
     this.getReservedBooks();
     this.getBorrowedBooks();
     this.memberName = this.authService.memberName || '';
+
+    this.socketService.socket.on("bookReserved", () => { this.getAllBooks(); });
+    this.socketService.socket.on("bookBorrowed", () => { this.getAllBooks(); });
+
+    this.socketService.socket.on("reservationDeleted", () => { 
+      this.getAllBooks();
+      this.getReservedBooks(); 
+    });
+
+    this.socketService.socket.on("bookReturned", () => { 
+      this.getAllBooks();
+      this.getBorrowedBooks();
+    });
   }
 
   getAllBooks(): void {
@@ -103,6 +117,10 @@ export class HomePage implements OnInit {
 
   logOut(): void {
     this.authService.logOut();
+    this.socketService.socket.off("bookReserved");
+    this.socketService.socket.off("bookBorrowed");
+    this.socketService.socket.off("reservationDeleted");
+    this.socketService.socket.off("bookReturned");
   }
 
 }

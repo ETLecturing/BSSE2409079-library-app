@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Book = require('../models/Book');
-const Reservation = require('../models/Reservation');
-const Booking = require('../models/Booking');
 
 async function addBook(req, res) {
     const {title, author, publisher, year, genre, language, imgUrl, status} = req.body;

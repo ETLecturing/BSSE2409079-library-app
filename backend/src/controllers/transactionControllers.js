@@ -25,13 +25,15 @@ async function createReservation(req, res) {
 
         updateBookStatus(bookId);
 
+        const io = req.app.get('io');
+        io.emit('bookReserved');
+
         res.status(201).json({ message: "Reservation created" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-// update book availability
 async function createBooking(req, res) {
     try {
         const memberId = new mongoose.Types.ObjectId(req.user.memberId);
@@ -42,7 +44,7 @@ async function createBooking(req, res) {
             return res.status(400).json({ message: "Invalid borrowing period." });
         }
 
-        const existingBorrow = await Booking.findOne({ bookId });
+        const existingBorrow = await Booking.findOne({ bookId, type: { $eq: 'borrow' }});
         if(existingBorrow) {
             return res.status(409).json({ message: "Book is borrowed by someone else." });
         }
@@ -79,6 +81,9 @@ async function createBooking(req, res) {
 
         updateBookStatus(bookId);
 
+        const io = req.app.get('io');
+        io.emit('bookBorrowed');
+
         res.status(201).json({ message: "Booking created." });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -99,6 +104,9 @@ async function deleteReservation(req, res) {
         await Reservation.deleteOne({_id: reservedBook._id});
         updateBookStatus(bookId);
 
+        const io = req.app.get('io');
+        io.emit('reservationDeleted');
+
         res.status(200).json({ message: "Reservation deleted." });  
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -118,6 +126,9 @@ async function returnBook(req, res) {
         const returnDate = new Date();
         await Booking.updateOne({_id: borrowRecord._id}, {type: 'return', returnDate});
         updateBookStatus(bookId);
+
+        const io = req.app.get('io');
+        io.emit('bookReturned');
 
         res.status(200).json({ message: "Book returned." });  
     } catch (error) {

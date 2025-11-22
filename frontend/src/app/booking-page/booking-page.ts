@@ -1,9 +1,10 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment.development';
+import { SocketService } from '../services/socket-service';
 
 interface Book {
   _id: string;
@@ -23,17 +24,29 @@ interface Book {
   templateUrl: './booking-page.html',
   styleUrl: './booking-page.css'
 })
-export class BookingPage implements OnInit {
+export class BookingPage implements OnInit, OnDestroy {
   book!: Book;
   specificBookId!: string | null;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private _location: Location) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private _location: Location, private socketService: SocketService) {}
 
   ngOnInit(): void {
     const getOneBookUrl = environment.apiUrl + '/book/api/getOne/';
     this.specificBookId = this.route.snapshot.paramMap.get('id');
     const completeUrl = getOneBookUrl + this.specificBookId;
     this.getOneBook(completeUrl);
+
+    this.socketService.socket.on("bookReserved", () => { this.getOneBook(completeUrl); });
+    this.socketService.socket.on("bookBorrowed", () => { this.getOneBook(completeUrl); });
+    this.socketService.socket.on("reservationDeleted", () => { this.getOneBook(completeUrl); });
+    this.socketService.socket.on("bookReturned", () => { this.getOneBook(completeUrl); });
+  }
+
+  ngOnDestroy(): void {
+    this.socketService.socket.off("bookReserved");
+    this.socketService.socket.off("bookBorrowed");
+    this.socketService.socket.off("reservationDeleted");
+    this.socketService.socket.off("bookReturned");
   }
 
   goBack(): void { this._location.back(); }
