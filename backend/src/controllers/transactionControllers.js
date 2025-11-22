@@ -23,7 +23,7 @@ async function createReservation(req, res) {
             type: 'reserve'
         });
 
-        updateBookStatus(bookId);
+        await updateBookStatus(bookId);
 
         const io = req.app.get('io');
         io.emit('bookReserved');
@@ -79,7 +79,7 @@ async function createBooking(req, res) {
             overdueFee: 0
         });
 
-        updateBookStatus(bookId);
+        await updateBookStatus(bookId);
 
         const io = req.app.get('io');
         io.emit('bookBorrowed');
@@ -102,7 +102,7 @@ async function deleteReservation(req, res) {
         }
 
         await Reservation.deleteOne({_id: reservedBook._id});
-        updateBookStatus(bookId);
+        await updateBookStatus(bookId);
 
         const io = req.app.get('io');
         io.emit('reservationDeleted');
@@ -118,14 +118,14 @@ async function returnBook(req, res) {
     const bookId = new mongoose.Types.ObjectId(req.params.bookId);
 
     try {
-        const borrowRecord = await Booking.findOne({ memberId, bookId });
+        const borrowRecord = await Booking.findOne({ memberId, bookId, type: 'borrow' });
         if(!borrowRecord) {
             return res.status(404).json({ message: "No record found." });
         }
 
         const returnDate = new Date();
         await Booking.updateOne({_id: borrowRecord._id}, {type: 'return', returnDate});
-        updateBookStatus(bookId);
+        await updateBookStatus(bookId);
 
         const io = req.app.get('io');
         io.emit('bookReturned');
