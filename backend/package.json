@@ -4,7 +4,7 @@
   "description": "Backend Server for Library App",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/**/*.test.js --exit",
     "start": "node server.js"
   },
   "author": "Wong Kai Lun",
@@ -17,5 +17,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.3",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5",
+    "sinon": "^21.0.0"
   }
 }
