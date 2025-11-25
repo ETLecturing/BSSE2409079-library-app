@@ -11,15 +11,6 @@ app.get('/', (req, res) => {
 });
 
 
-
-// Example for angular
-app.get('/api/users', (req, res) => {
-  res.json([
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' }
-  ]);
-});
-
 // Routes
 app.use('/member', require('./routes/memberRoutes'));
 app.use('/book', require('./routes/bookRoutes'));
