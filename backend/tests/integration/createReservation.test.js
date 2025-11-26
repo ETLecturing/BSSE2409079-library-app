@@ -66,6 +66,8 @@ describe('Integration Test: createReservation()', () => {
             .post(`/transaction/api/reserve/${bookId}`)
             .set('Authorization', `Bearer ${token}`);
 
+        console.log("RESERVE RESPONSE:", reserveRes.status, reserveRes.body);
+
         expect(reserveRes.status).to.equal(201);
         expect(reserveRes.body.message).to.equal("Reservation created");
 
