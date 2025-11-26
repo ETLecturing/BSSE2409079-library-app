@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '.env.test' });
 const mongoose = require('mongoose');
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
@@ -14,7 +14,6 @@ const Reservation = require('../../src/models/Reservation');
 describe('Integration Test: createReservation()', () => {
     let mongoServer;
     let memberId;
-    let token;
     let bookId;
 
     before(async () => {
