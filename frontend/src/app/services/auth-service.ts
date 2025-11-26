@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class AuthService {
   private tokenKey = 'token';
   private _decodedToken: any = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     const token = this.getToken();
     if (token) this._decodedToken = this.decodeToken(token);
   }
@@ -21,6 +23,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  logIn(credentials: {email: string, password: string}) {
+    return this.http.post<{ token: string }>(environment.apiUrl + '/member/api/login', credentials);
   }
 
   logOut(): void {

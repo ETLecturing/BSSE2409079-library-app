@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
-import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-login-form',
@@ -18,13 +16,13 @@ export class LoginForm {
     password: new FormControl('')
   });
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-  loginUser(event: Event) {
+  logInUser(event: Event) {
     event.preventDefault();
 
     if(this.loginForm.valid) {
-      this.http.post<{ token: string }>(environment.apiUrl + '/member/api/login', this.loginForm.value)
+      this.authService.logIn(this.loginForm.value)
       .subscribe({
         next: (res) => {
           this.authService.saveToken(res.token);
@@ -35,4 +33,5 @@ export class LoginForm {
     }
 
   }
+
 }
