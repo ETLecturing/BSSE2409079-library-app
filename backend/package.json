@@ -4,7 +4,7 @@
   "description": "Backend Server for Library App",
   "main": "server.js",
   "scripts": {
-    "test": "mocha tests/**/*.test.js --exit",
+    "test": "mocha --reporter spec tests/**/*.test.js",
     "start": "node server.js"
   },
   "author": "Wong Kai Lun",
